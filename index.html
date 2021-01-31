@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cruise Booking</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    />
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link
@@ -35,11 +39,11 @@
           Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry's standard dummy text ever
           since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book./p>
+          scrambled it to make a type specimen book.
         </p>
       </div>
 
-      <div class="booking-form">
+      <div id="form-area" class="booking-form">
         <h3>Book Ocean Time</h3>
         <div class="input-group">
           <label for="">Flying From</label>
@@ -47,7 +51,7 @@
             class="inp-style"
             type="text"
             name=""
-            placeholder="Dhake, Bangladesh"
+            placeholder="Dhaka, Bangladesh"
           />
         </div>
         <div class="input-group">
@@ -72,20 +76,38 @@
         <div class="input-group f-class">
           <div>
             <label for="">First Class ($150)</label>
-            <input class="inp-style inp-width" type="number" name="" />
+            <input
+              id="firstClassCount"
+              class="inp-style inp-width"
+              type="number"
+              name=""
+              value="0"
+            />
           </div>
           <div class="plus-minus-btn">
-            <p>+ -</p>
+            <p class="cursor">
+              <span class="set" id="firstClassIncrease" onclick="firstClassTicket(true)">+</span>
+              <span class="set" id="firstClassDecrease" onclick="firstClassTicket(false)">-</span>
+            </p>
           </div>
         </div>
 
         <div class="input-group f-class">
           <div>
             <label for="">Economy ($100)</label>
-            <input class="inp-style inp-width" type="number" name="" />
+            <input
+              id="economy-count"
+              class="inp-style inp-width"
+              type="number"
+              name=""
+              value="0"
+            />
           </div>
           <div class="plus-minus-btn">
-            <p><span>+</span> <span>-</span></p>
+            <p class="cursor">
+              <span class="set" id="economy-increase" onclick="economyClassTicket(true)">+</span>
+              <span class="set" id="economy-decrease" onclick="economyClassTicket(false)">-</span>
+            </p>
           </div>
         </div>
         <div class="calculations">
@@ -94,7 +116,7 @@
               <p>Subtotal</p>
             </div>
             <div class="right">
-              <p>$500</p>
+              <p>$ <span id="sub-total">00</span></p>
             </div>
           </div>
 
@@ -103,7 +125,7 @@
               <p>Charge 10% VAT</p>
             </div>
             <div class="right">
-              <p>$50</p>
+              <p>$ <span id="tax-amount">00</span></p>
             </div>
           </div>
           <hr />
@@ -112,13 +134,111 @@
               <h4>Total</h4>
             </div>
             <div class="right">
-              <p>$550</p>
+              <p id="total">$00</p>
             </div>
           </div>
         </div>
-        <button class="btn-style">Book Now</button>
+        <button onclick="confirmation()" class="btn-style cursor">Book Now</button>
+      </div>
+      <!-- booking -->
+      <div id="confirmation-area" class="confirmation">
+        <h3>Thank you for choosing us!</h3>
+        <br />
+        <h2>
+          <i class="fas fa-check-circle icon"></i> Your Booking in Cruise Queen
+          is confirmed
+        </h2>
+        <br />
+        <p>
+          <i class="fas fa-check icon"></i> <b>Cruise Queen</b> is expecting you
+          in the tour.
+        </p>
+        <br />
+        <p>
+          <i class="fas fa-check icon"></i> Your<b>payment</b> will be handled
+          by Cruise Queen. The '<b>Payment</b>' section below has more details
+        </p>
+        <br />
+        <p>
+          <i class="fas fa-check icon"></i> Make changes to your booking in just
+          few clicks.
+        </p>
+        <br>
+        <p>
+          Happy Journey! <i style="color: crimson;" class="fab fa-docker"></i>
+        </p>
+        <br>
+        <br>
       </div>
     </main>
+
+    <!-- Javascript starts from here -->
+    <script>
+      /* First Class Booking Function Start */
+      function firstClassTicket(isIncrease) {
+            const firstClassInput = document.getElementById("firstClassCount");
+            const firstClassCount = parseInt(firstClassInput.value)
+            let firstClassNumber = firstClassCount;
+            if (isIncrease == true) {
+                firstClassNumber = firstClassCount + 1;
+            }
+            if (isIncrease == false && firstClassCount > 0) {
+                firstClassNumber = firstClassCount - 1;
+            }
+
+            document.getElementById("firstClassCount").value = firstClassNumber;
+            subTotal();
+        }
+        /* First Class Booking Function End */
+
+        /* Economy Class Booking Function Start */
+        function economyClassTicket(isIncrease) {
+            const economyClassInput = document.getElementById("economy-count");
+            const economyClassCount = parseInt(economyClassInput.value)
+            let economyClassNumber = economyClassCount;
+            if (isIncrease == true) {
+                economyClassNumber = economyClassCount + 1;
+            }
+            if (isIncrease == false && economyClassCount > 0) {
+                economyClassNumber = economyClassCount - 1;
+            }
+            document.getElementById("economy-count").value = economyClassNumber;
+
+            subTotal();
+        }
+        /* Economy Class Booking Function End */
+
+        /* Total Tickets Price Function Start */
+        function subTotal() {
+            const firstClass = document.getElementById("firstClassCount")
+            const firstClassAmount = parseInt(firstClass.value);
+
+            const economyClass = document.getElementById("economy-count")
+            const economyClassAmount = parseInt(economyClass.value);
+
+            const ticketPrice = firstClassAmount * 150 + economyClassAmount * 100;
+            document.getElementById("sub-total").innerText = ticketPrice;
+
+            const tax = ticketPrice * 0.1;
+            document.getElementById("tax-amount").innerText = tax;
+
+            const total = ticketPrice + tax;
+            document.getElementById("total").innerText = total;
+        }
+        /* Total Tickets Price Function End*/
+
+        /* Confirmation message and Greetings Function Start */
+        function confirmation() {
+            const bookingArea = document.getElementById("form-area");
+            bookingArea.style.display = "none";
+            const confirmArea = document.getElementById("confirmation-area");
+            confirmArea.style.display = "block";
+        }
+        /* Confirmation message and Greetings Function End */
+
+    </script>
+
+    <!-- Javascript ended here -->
 
     <!--Thank You-->
   </body>

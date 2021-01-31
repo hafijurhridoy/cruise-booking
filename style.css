@@ -122,3 +122,23 @@ nav ul li a:hover, a.active{
     display: flex;
     justify-content: space-between;
 }
+.confirmation{
+    text-align: center;
+    background-color: #FFF;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    float: right;
+    width: 85%;
+    margin-left: 180px;
+    display: none;
+}
+.cursor{
+    cursor: pointer;
+}
+.icon{
+    color: #2ecc71;
+}
+.set:hover{
+    color: tomato;
+}
